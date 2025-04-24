@@ -1,103 +1,127 @@
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+import { GeistSans } from 'geist/font/sans';
 
-export default function Home() {
+import StatCard from '@/components/dashboard/StatCard';
+import InventoryChart from '@/components/dashboard/InventoryChart';
+import ShipmentAnalytics from '@/components/dashboard/ShipmentAnalytics';
+import SpotlightMap from '@/components/dashboard/SpotlightMap';
+import TopItemsList from '@/components/dashboard/TopItemsList';
+import { topPurchasedItems, topSoldItems } from '@/utils/data';
+
+const MoneyBag = '/icons/MoneyBag.svg';
+const Payments = '/icons/Payments.svg';
+const Purchases = '/icons/Purchases.svg';
+const ChartLine = '/icons/ChartLine.svg';
+
+export default function DashboardPage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div
+      className={`flex h-screen bg-[#F7F9FB] bg-primary text-primary ${GeistSans.className} `}
+    >
+      <div className='flex flex-1 flex-col  pl-16'>
+        <main className='flex-1 bg-[#F7F9FB]  py-20 '>
+          <div className='mb-4 -px-6 flex items-start justify-between border-b-1 border-[#0000001A] pb-6 p-6'>
+            <div className='flex items-center space-x-3'>
+              <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-white'>
+                <Image
+                  src='/icons/Logo.svg'
+                  alt='User Avatar'
+                  width={28}
+                  height={28}
+                  className='object-cover'
+                />
+              </div>
+              <div className='flex  space-x-2'>
+                <div>
+                  <h1 className='text-2xl font-semibold text-black'>
+                    Hello, Rahul
+                  </h1>
+                  <span className='text-sm text-gray-500'>ORUE PVT. LTD.</span>
+                </div>
+                <span className='ml-2 rounded h-7 bg-[#4F45E4] px-2.5 pt-1.5 text-xs font-semibold uppercase text-white shadow-sm'>
+                  customer
+                </span>
+              </div>
+            </div>
+            <div className='hidden lg:flex items-center space-x-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-bold text-black shadow-sm cursor-pointer hover:bg-gray-50'>
+              <span>Last 30 Days</span>
+              <Image
+                src='/icons/ArrowDown.svg'
+                alt='Arrow down'
+                width={16}
+                height={16}
+                className='object-cover'
+              />
+            </div>
+          </div>
+          <div className='p-6'>
+            <div className='mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+              <StatCard
+                title='Payment Receivables'
+                value='₹12,40,000'
+                change={3.87}
+                subText='OVERDUE PAYMENTS: ₹1,40,000'
+                icon={MoneyBag}
+              />
+              <StatCard
+                title='Payments Made'
+                value='₹9,50,000'
+                subText='NEXT PAYMENT DUE: 1 WEEK'
+                icon={Payments}
+              />
+              <StatCard
+                title='Total Purchases'
+                value='₹15,20,000'
+                change={3.87}
+                subText='SUPPLIERS: 6'
+                icon={Purchases}
+              />
+              <StatCard
+                title='Total Sales'
+                value='₹18,00,000'
+                change={3.87}
+                subText='TOP SELLING PRODUCT: ELECTRONICS'
+                icon={ChartLine}
+              />
+            </div>
+            <div className='mb-6 grid grid-cols-1 gap-6 lg:grid-cols-5'>
+              <div className='lg:col-span-2'>
+                <InventoryChart />
+              </div>
+              <div className='lg:col-span-3'>
+                <ShipmentAnalytics />
+              </div>
+            </div>
+            <div className='mb-6 grid grid-cols-1 gap-6 xl:grid-cols-5 xl:col-span-5 bg-white rounded-3xl  border-1 border-[#E5E5E5] pt-40 pb-10 -mx-4 -mt-40'>
+              <div className='xl:col-span-2 pl-4'>
+                <SpotlightMap />
+              </div>
+              <div className='grid grid-cols-1 gap-6 md:grid-cols-2 xl:col-span-3 pr-4 border-l-1 border-[#E5E5E5]'>
+                <div className='px-4'>
+                  <TopItemsList
+                    title='Top Items Sold'
+                    items={topSoldItems}
+                    initialView='value'
+                    valueLabel='Value'
+                    volumeLabel='Vol.'
+                  />
+                </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+                <div className='border-l-1 border-[#E5E5E5] px-4'>
+                  <TopItemsList
+                    title='Top Items Purchased'
+                    items={topPurchasedItems}
+                    initialView='volume'
+                    volumeLabel='Vol.'
+                    valueLabel='Value'
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
